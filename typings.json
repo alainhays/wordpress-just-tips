@@ -8,7 +8,9 @@
   "globalDevDependencies": {
     "browserify": "registry:dt/browserify#12.0.1+20160317120654",
     "node": "registry:dt/node#6.0.0+20160514165920",
+    "tooltipster": "registry:dt/tooltipster#0.0.0+20160317120654",
     "vinyl-buffer": "registry:dt/vinyl-buffer#0.0.0+20160316155526",
-    "vinyl-source-stream": "registry:dt/vinyl-source-stream#0.0.0+20160316155526"
+    "vinyl-source-stream": "registry:dt/vinyl-source-stream#0.0.0+20160316155526",
+    "youtube": "registry:dt/youtube#0.0.0+20160317120654"
   }
 }
