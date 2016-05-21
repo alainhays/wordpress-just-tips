@@ -3,23 +3,29 @@
 (function ($: JQueryStatic) {
 
   $(document).ready(() => {
-    $('.video-tooltip-container').each((index) => {
+    $('.video-tooltip-shortcode').each(function (index) {
       var preview = $(this);
 
       preview.tooltipster({
-        position: 'top',
+        position: preview.data('option-position') || 'top',
         contentAsHTML: true,
         content: '<div class="video-tooltip-video-wrapper"><div id="video-tooltip-player-' + index + '"></div></div>',
-        functionReady: () => {
-          console.log(preview, preview.data('provider'));
+        functionReady: function () {
           switch (preview.data('provider')) {
             case 'youtube': {
               var player = new YT.Player('video-tooltip-player-' + index, {
                 videoId: preview.data('video-id'),
                 playerVars: {
-                  'autoplay': 1,
-                  'controls': 0,
-                  'start': 0
+                  'autohide': preview.data('option-autohide') || 2,
+                  'autoplay': preview.data('option-autoplay') || 1,
+                  'color': preview.data('option-color'),
+                  'controls': preview.data('option-controls') || 0,
+                  'end': preview.data('option-end'),
+                  'loop': preview.data('option-loop'),
+                  'modestbranding': 1,
+                  'rel': 0,
+                  'showinfo': 0,
+                  'start': preview.data('option-begin')
                 },
                 events: {
                   'onReady': function (event) {
@@ -30,6 +36,7 @@
                   }
                 }
               });
+              break;
             }
 
             default:

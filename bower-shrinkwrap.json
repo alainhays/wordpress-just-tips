@@ -1,0 +1,11 @@
+{
+  "https://github.com/homerjam/youtube-iframe-api.git": {
+    "0.0.1": "79cd27b02dba8cec9751c6ecdd1f803312645eb2"
+  },
+  "https://github.com/iamceege/tooltipster.git": {
+    "3.3.0": "28fa8412cc1ae89de13c0d4d9fa30e1874e9d397"
+  },
+  "https://github.com/jquery/jquery-dist.git": {
+    "2.2.4": "c0185ab7c75aab88762c5aae780b9d83b80eda72"
+  }
+}

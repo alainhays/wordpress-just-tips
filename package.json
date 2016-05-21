@@ -1,6 +1,6 @@
 {
   "name": "plugin-video-tooltip",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Provides a tooltip with a video in it. Brilliant?",
   "main": "index.js",
   "scripts": {
@@ -11,11 +11,13 @@
   "devDependencies": {
     "autoprefixer": "^6.3.6",
     "bower": "^1.7.9",
+    "bower-shrinkwrap-resolver": "^0.4.1",
     "browserify": "^13.0.1",
     "exorcist": "^0.4.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-bower": "0.0.13",
+    "gulp-clean": "^0.3.2",
     "gulp-concat-css": "^2.3.0",
     "gulp-less": "^3.1.0",
     "gulp-live-server": "0.0.29",
@@ -26,6 +28,7 @@
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
     "gulp-wiredep": "0.0.0",
+    "gulp-zip": "^3.2.0",
     "jshint-sourcemap-reporter": "0.0.1",
     "less": "^2.7.1",
     "lodash.assign": "^4.0.9",

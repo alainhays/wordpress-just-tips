@@ -6,15 +6,24 @@
   <title>Test</title>
   <!-- bower:css -->
   <!-- endbower -->
+
+  <style>
+    #video-container {
+      height: 100%;
+      text-align: center;
+      padding: 50px;
+      width: 100%
+    }
+  </style>
 </head>
 
 <body>
 
-  <div class="video-tooltip-container" provider="youtube" data-video-id="2k5qFdA0554" data-option-mute="0" data-option-start="13">HOVER ME!</div>
+  <div id="video-container" class="video-tooltip-shortcode" data-provider="youtube" data-video-id="2k5qFdA0554" data-option-mute="0" data-option-position="bottom" data-option-begin="60" data-option-end="61"><span>HOVER ME!</span></div>
 
   <!-- bower:js -->
   <!-- endbower -->
-  <script src="js/bundle.js"></script>
+  <script src="bundle.js"></script>
 </body>
 
 </html>

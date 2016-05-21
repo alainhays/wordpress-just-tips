@@ -61,41 +61,65 @@ class VideoTooltipPublic {
      */
         wp_enqueue_script( 'youtube', '//www.youtube.com/iframe_api', array(), $this->version, false );
         wp_enqueue_script( 'froogaloop2', '//f.vimeocdn.com/js/froogaloop2.min.js', array(), $this->version, false );
-        wp_enqueue_script( 'tooltipster', plugin_dir_url( __FILE__ ) . 'vendor/tooltipster/js/jquery.tooltipster.min.js', array( 'jquery' ), $this->version, false );
-        wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/hover-video-preview-public.js', array( 'jquery' ), $this->version, false );
+        wp_enqueue_script( 'tooltipster', plugin_dir_url( __FILE__ ) . 'vendor/tooltipster/js/jquery.tooltipster.min.js', array( 'jquery', 'youtube', 'froogaloop2' ), $this->version, false );
+        wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/hover-video-preview-public.js', array( 'tooltipster' ), $this->version, false );
   }
 
     /**
      * Registers the shortcodes
      */
     public function register_shortcodes() {
-        add_shortcode( 'hover_video_preview', array( $this, 'shortcode_hover_video_preview' ) );
+        add_shortcode( 'video-tooltip', array( $this, 'shortcode_video_tooltip' ) );
     }
 
     /**
-     * Returns the code necessary to
+     * Builds the shortcode output.
      *
      * @param $atts
      * @param $content
      * @param $tag
      */
-    public function shortcode_hover_video_preview( $atts, $content, $tag ) {
+    public function shortcode_video_tooltip( $atts, $content, $tag ) {
         $a = shortcode_atts( array(
-            'id'       => '',
-            'video_id' => '',
-            'class'    => '',
-            'provider' => 'youtube',
-            'mute'     => '0',
+            'autohide'  => '1',
+            'autoplay'  => '1',
+            'class'     => '',
+            'color'     => '',
+            'controls'  => '0',
+            'begin'     => '0',
+            'end'       => '',
+            'id'        => '',
+            'loop'      => '0',
+            'mute'      => '0',
+            'provider'  => 'youtube',
+            'size'      => 'wide',
+            'video_id'  => '',
         ), $atts );
 
-        $id       = $a['id'];
-        $video_id = $a['video_id'];
-        $class    = $a['class'];
-        $provider = $a['provider'];
-        $mute     = $a['mute'];
+        $class          = $a['class'];
+        $controls       = $a['controls'];
+        $begin          = $a['begin'];
+        $end            = $a['end'];
+        $id             = $a['id'];
+        $mute           = $a['mute'];
+        $provider       = $a['provider'];
+        $size           = $a['size'];
+        $video_id       = $a['video_id'];
 
         return <<< EOT
-            <div id="$id" class="hvp-container $class" data-provider="$provider" data-video-id="$video_id" data-option-mute="$mute">$content</div>
+            <div id="$id" class="video-tooltip-container $size $class"
+              data-provider="$provider"
+              data-video-id="$video_id"
+              data-option-autohide="$autohide"
+              data-option-autoplay="$autoplay"
+              data-option-begin="$begin"
+              data-option-color="$color"
+              data-option-controls="$controls"
+              data-option-end="$end"
+              data-option-loop="$loop"
+              data-option-mute="$mute">
+              $content
+            </div>
 EOT;
     }
 }

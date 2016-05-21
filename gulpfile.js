@@ -4,27 +4,31 @@ var gulp = require('gulp'),
   babel = require('gulp-babel'),
   bower = require('gulp-bower'),
   browserify = require('browserify'),
+  clean = require('gulp-clean'),
   compose = require('lodash.compose'),
   concatcss = require('gulp-concat-css'),
   exorcist = require('exorcist'),
   gls = require('gulp-live-server'),
   less = require('gulp-less'),
   notify = require('gulp-notify'),
+  package = JSON.parse(require('fs').readFileSync('./package.json')),
   postcss = require('gulp-postcss'),
   reporter = require('jshint-sourcemap-reporter'),
   source = require('vinyl-source-stream'),
   sourcemaps = require('gulp-sourcemaps'),
   tsify = require('tsify'),
+  typings = require('gulp-typings'),
   watch = require('gulp-watch'),
   watchify = require('watchify'),
-  wiredep = require('gulp-wiredep');
+  wiredep = require('gulp-wiredep'),
+  zip = require('gulp-zip');
 
 var server,
   app = 'app',
   components = 'dist/components',
   destination = 'dist',
   entry = 'video-tooltip.ts',
-  html = 'dist/**/*.html',
+  html = 'app/**/*.html',
   scripts = 'app/scripts',
   styles = 'app/styles/**/*.less';
 
@@ -34,19 +38,49 @@ var assets = [
 ];
 
 function bundler(useSourceMaps, useWatchify) {
-  var params = useWatchify ? assign({ debug: useSourceMaps }, watchify.args) : { debug: useSourceMaps };
-  var wrapper = useWatchify ? compose(watchify, browserify) : browserify;
-  params = assign(params, {});
-  return wrapper(params).add(require.resolve('./' + scripts + '/' + entry));
+  function create() {
+    var params = useWatchify ? assign({ debug: useSourceMaps }, watchify.args) : { debug: useSourceMaps };
+    var wrapper = useWatchify ? compose(watchify, browserify) : browserify;
+    params = assign(params, {});
+    return wrapper(params)
+      .add(require.resolve('./' + scripts + '/' + entry))
+      .plugin('tsify', {
+        module: 'commonjs',
+        noImplicitAny: true,
+        noLib: false,
+        pretty: true,
+        target: 'es5'
+      }).add('typings/index.d.ts');
+  }
+
+  var bundle = create();
+
+  var rebundle = function () {
+    var start = Date.now();
+    var stream = bundle.bundle()
+      .on('error', notify.onError('<%= error.message %>'))
+      .pipe(exorcist(destination + '/bundle.js.map'))
+      .pipe(source('bundle.js'))
+      .pipe(gulp.dest(destination))
+      .pipe(notify({
+        title: logbuild(start),
+        sound: false
+      }));
+    return (server ? stream.pipe(server.notify()) : stream);
+  };
+
+  bundle.on('update', rebundle);
+
+  return rebundle();
 }
 
 function logbuild(start) {
   return 'Built in ' + (Date.now() - start) + 'ms';
 }
 
-function notifier(stream, taskFn) {
+function time(stream, task) {
   var start = Date.now();
-  taskFn(stream)
+  task(stream)
     .pipe(notify({
       title: logbuild(start),
       sound: false
@@ -57,42 +91,18 @@ gulp.task('bower', function () {
   return bower();
 });
 gulp.task('bower:watch', ['bower'], function () {
-  gulp.watch('bower.json', {
-    interval: 1000
-  }, ['wiredep']).on('error', function (error) {
-    console.log(error);
-  });
+  gulp.watch('bower.json', ['wiredep']);
 });
 
-gulp.task('watchify', ['bower:watch', 'less:watch', 'assets:watch', 'wiredep:watch'], function () {
-  var bundle = bundler(true, true);
+gulp.task('typings', function () {
+  return gulp.src('typings.json').pipe(typings());
+});
+gulp.task('typings:watch', ['typings'], function () {
+  gulp.watch('typings.json', ['typings']);
+});
 
-  bundle.plugin('tsify', {
-    module: 'commonjs',
-    noImplicitAny: true,
-    noLib: false,
-    target: 'es5'
-  }).add('typings/index.d.ts');
-
-  var rebundle = function () {
-    var start = Date.now();
-    var stream = bundle
-      .bundle()
-      .on('error', notify.onError('<%= error.message %>'))
-      .pipe(exorcist(destination + '/js/index.js.map'))
-      .pipe(source('bundle.js'))
-      .pipe(gulp.dest(destination + '/js'))
-      .pipe(notify({
-        title: logbuild(start),
-        sound: false
-      }));
-
-    if (server) stream.pipe(server.notify());
-  };
-
-  bundle.on('update', rebundle);
-
-  return rebundle();
+gulp.task('watchify', ['bower:watch', 'typings:watch', 'assets:watch', 'less:watch', 'wiredep:watch'], function () {
+  return bundler(true, true);
 });
 
 gulp.task('less', ['bower'], function () {
@@ -103,38 +113,48 @@ gulp.task('less', ['bower'], function () {
     .pipe(postcss([autoprefixer({ map: true, browsers: ['last 2 version'] })]))
     .pipe(concatcss('bundle.css'))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(destination + '/css'));
-
-  if (server) stream.pipe(server.notify());
-
-  return stream;
+    .pipe(gulp.dest(destination));
+  return (server ? stream.pipe(server.notify()) : stream);
 });
-gulp.task('less:watch', ['bower', 'less'], function () {
+gulp.task('less:watch', ['less'], function () {
   gulp.watch([styles], ['less']);
 });
 
-gulp.task('assets', ['bower'], function () {
-  gulp.src(assets).pipe(gulp.dest(destination));
+gulp.task('assets', ['less'], function () {
+  return gulp.src(assets).pipe(gulp.dest(destination));
 });
-gulp.task('assets:watch', ['assets', 'bower'], function () {
+gulp.task('assets:watch', ['assets'], function () {
   gulp.watch(assets, ['assets']);
 });
 
-gulp.task('wiredep', ['bower'], function () {
-  gulp.src(html).pipe(wiredep({
+gulp.task('package', ['build'], function () {
+  return gulp.src(destination + '/*').pipe(zip('plugin-video-tooltip-' + package.version + '.zip')).pipe(gulp.dest(destination));
+});
+
+gulp.task('wiredep', ['assets', 'bower'], function () {
+  var stream = gulp.src(destination + '/**/*.html').pipe(wiredep({
     directory: components,
     options: {
       cwd: 'dist'
     }
   })).pipe(gulp.dest(destination));
+  return (server ? stream.pipe(server.notify()) : stream);
 });
-gulp.task('wiredep:watch', ['bower', 'wiredep'], function () {
+gulp.task('wiredep:watch', ['wiredep'], function () {
   gulp.watch([html], ['wiredep']);
 });
 
-gulp.task('dev', ['watchify']);
+/* Entry-points */
 
-gulp.task('default', ['dev'], function () {
+gulp.task('clean:dist', function () {
+  return gulp.src(['dist']).pipe(clean());
+});
+
+gulp.task('default', ['watch'], function () {
   server = gls.static([destination]);
   server.start();
 });
+
+gulp.task('build', ['assets', 'less', 'wiredep'], function () { return bundler(true, false); });
+gulp.task('release', ['clean:dist'], function () { return gulp.start(['bower', 'build', 'package']); });
+gulp.task('watch', ['watchify']);
