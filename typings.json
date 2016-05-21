@@ -1,0 +1,14 @@
+{
+  "globalDependencies": {
+    "jquery": "registry:dt/jquery#1.10.0+20160417213236"
+  },
+  "devDependencies": {
+    "gulp": "registry:npm/gulp#3.8.0+20160211003958"
+  },
+  "globalDevDependencies": {
+    "browserify": "registry:dt/browserify#12.0.1+20160317120654",
+    "node": "registry:dt/node#6.0.0+20160514165920",
+    "vinyl-buffer": "registry:dt/vinyl-buffer#0.0.0+20160316155526",
+    "vinyl-source-stream": "registry:dt/vinyl-source-stream#0.0.0+20160316155526"
+  }
+}

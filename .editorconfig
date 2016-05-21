@@ -7,30 +7,12 @@ root = true
 ; Line ending
 [*]
 end_of_line = crlf
+indent_size = 2
+indent_style = space
 max_line_length = 150
 trim_trailing_whitespace = true
 
 ; .NET
 [*.{cpp,cs,vb}]
 indent_size = 4
-indent_style = space
-
-; ASP.NET
-[*.{aspx,ascx,cshtml}]
-indent_size = 2
-indent_style = space
-
-; Web
-[*.{css,htm,html,less,js,json}]
-indent_size = 2
-indent_style = space
-
-; Windows
-[*.{xaml}]
-indent_size = 2
-indent_style = space
-
-; Misc
-[*.{build,config,StyleCop,xml}]
-indent_size = 2
 indent_style = space

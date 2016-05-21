@@ -1,0 +1,22 @@
+{
+  "name": "plugin-video-tooltip",
+  "description": "Provides a tooltip with a video in it. Brilliant?",
+  "main": "index.js",
+  "authors": [
+    "Mike Pham <mpham@nativecode.com>"
+  ],
+  "license": "GPL-2.0",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "vendor"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.4"
+  }
+}
