@@ -1,6 +1,6 @@
 {
   "name": "plugin-video-tooltip",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Provides a tooltip with a video in it. Brilliant?",
   "main": "index.js",
   "scripts": {
