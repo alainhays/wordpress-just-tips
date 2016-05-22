@@ -38,8 +38,8 @@ class VideoTooltipPublic {
    * @since    1.0.0
    */
   public function enqueue_styles() {
-    wp_enqueue_style( 'tooltipster', plugin_dir_url( __FILE__ ) . 'vendor/tooltipster/css/tooltipster.css', array(), $this->version, 'all' );
-    wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/public.css', array(), $this->version, 'all' );
+    wp_enqueue_style( 'tooltipster', plugin_dir_url( __FILE__ ) . '../components/tooltipster/css/tooltipster.css', array(), $this->version, 'all' );
+    wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../bundle.css', array(), $this->version, 'all' );
   }
 
   /**
@@ -61,8 +61,8 @@ class VideoTooltipPublic {
      */
         wp_enqueue_script( 'youtube', '//www.youtube.com/iframe_api', array(), $this->version, false );
         wp_enqueue_script( 'froogaloop2', '//f.vimeocdn.com/js/froogaloop2.min.js', array(), $this->version, false );
-        wp_enqueue_script( 'tooltipster', plugin_dir_url( __FILE__ ) . 'vendor/tooltipster/js/jquery.tooltipster.min.js', array( 'jquery', 'youtube', 'froogaloop2' ), $this->version, false );
-        wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/hover-video-preview-public.js', array( 'tooltipster' ), $this->version, false );
+        wp_enqueue_script( 'tooltipster', plugin_dir_url( __FILE__ ) . '../components/tooltipster/js/jquery.tooltipster.min.js', array( 'jquery', 'youtube', 'froogaloop2' ), $this->version, false );
+        wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../js/bundle.js', array( 'tooltipster' ), $this->version, false );
   }
 
     /**
