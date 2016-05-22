@@ -92,7 +92,6 @@ class VideoTooltipPublic {
             'loop'      => '0',
             'mute'      => '0',
             'provider'  => 'youtube',
-            'size'      => 'wide',
             'video_id'  => '',
         ), $atts );
 
@@ -107,7 +106,7 @@ class VideoTooltipPublic {
         $video_id       = $a['video_id'];
 
         return <<< EOT
-            <div id="$id" class="video-tooltip-shortcode $size $class"
+            <div id="$id" class="video-tooltip-shortcode $class"
               data-provider="$provider"
               data-video-id="$video_id"
               data-option-autohide="$autohide"
