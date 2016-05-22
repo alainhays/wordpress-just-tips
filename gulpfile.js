@@ -1,24 +1,27 @@
 var gulp = require('gulp'),
   assign = require('lodash.assign'),
   autoprefixer = require('autoprefixer'),
-  babel = require('gulp-babel'),
+  bump = require('gulp-bump'),
   bower = require('gulp-bower'),
   browserify = require('browserify'),
   clean = require('gulp-clean'),
   compose = require('lodash.compose'),
   concatcss = require('gulp-concat-css'),
   exorcist = require('exorcist'),
+  filter = require('gulp-filter'),
+  git = require('gulp-git'),
   gls = require('gulp-live-server'),
   less = require('gulp-less'),
   package = JSON.parse(require('fs').readFileSync('./package.json')),
   postcss = require('gulp-postcss'),
+  replace = require('gulp-replace'),
   reporter = require('jshint-sourcemap-reporter'),
   shrinkwrap = require('gulp-shrinkwrap'),
   source = require('vinyl-source-stream'),
   sourcemaps = require('gulp-sourcemaps'),
+  tag = require('gulp-tag-version'),
   tsify = require('tsify'),
   typings = require('gulp-typings'),
-  watch = require('gulp-watch'),
   watchify = require('watchify'),
   wiredep = require('gulp-wiredep'),
   zip = require('gulp-zip');
@@ -106,7 +109,12 @@ gulp.task('less:watch', ['less'], function () {
 });
 
 gulp.task('assets', ['less'], function () {
-  return gulp.src(assets).pipe(gulp.dest(destination));
+  var php = filter(['**/*.php'], { restore: true });
+  return gulp.src(assets)
+    .pipe(php)
+    .pipe(replace('{VERSION}', package.version))
+    .pipe(php.restore)
+    .pipe(gulp.dest(destination));
 });
 gulp.task('assets:watch', ['assets'], function () {
   gulp.watch(assets, ['assets']);
@@ -148,6 +156,19 @@ gulp.task('default', ['watch'], function () {
   server.start();
 });
 
+function inc(importance) {
+  return gulp.src(['./package.json', './bower.json'])
+    .pipe(bump({ type: importance }))
+    .pipe(gulp.dest('.'))
+    .pipe(git.commit('bumps package version'))
+    .pipe(filter('package.json'))
+    .pipe(tag());
+}
+
+gulp.task('bump:patch', function () { return inc('patch'); });
+gulp.task('bump:feature', function () { return inc('minor'); });
+gulp.task('bump:release', function () { return inc('major'); });
+
 gulp.task('build', ['assets', 'less', 'typings', 'wiredep'], function () { return bundler(true, false); });
-gulp.task('release', ['clean:dist'], function () { return gulp.start(['bower', 'build', 'package']); });
+gulp.task('distribute', ['clean:dist', 'bump:patch'], function () { return gulp.start(['bower', 'build', 'package']); });
 gulp.task('watch', ['watchify']);
