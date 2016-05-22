@@ -12,7 +12,6 @@ var gulp = require('gulp'),
   git = require('gulp-git'),
   gls = require('gulp-live-server'),
   less = require('gulp-less'),
-  package = JSON.parse(require('fs').readFileSync('./package.json')),
   postcss = require('gulp-postcss'),
   replace = require('gulp-replace'),
   reporter = require('jshint-sourcemap-reporter'),
@@ -76,6 +75,10 @@ function logbuild(start) {
   return 'Built in ' + (Date.now() - start) + 'ms';
 }
 
+function version() {
+    return JSON.parse(require('fs').readFileSync('./package.json')).version;
+}
+
 gulp.task('bower', function () {
   return bower();
 });
@@ -112,7 +115,7 @@ gulp.task('assets', ['less'], function () {
   var php = filter(['**/*.php'], { restore: true });
   return gulp.src(assets)
     .pipe(php)
-    .pipe(replace('{VERSION}', package.version))
+    .pipe(replace('{VERSION}', version()))
     .pipe(php.restore)
     .pipe(gulp.dest(destination));
 });
@@ -122,13 +125,14 @@ gulp.task('assets:watch', ['assets'], function () {
 
 gulp.task('shrinkwrap', function () {
   return gulp.src('package.json')
+    .pipe(shrinkwrap.lock())
     .pipe(shrinkwrap())
-    .pipe(gulp.dest('.'));
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('package', ['build', 'shrinkwrap'], function () {
   return gulp.src(destination + '/**/*')
-    .pipe(zip('plugin-video-tooltip-' + package.version + '.zip'))
+    .pipe(zip('plugin-video-tooltip-' + version() + '.zip'))
     .pipe(gulp.dest(destination));
 });
 
@@ -157,7 +161,7 @@ gulp.task('default', ['watch'], function () {
 });
 
 function inc(importance) {
-  return gulp.src(['./package.json', './bower.json'])
+  return gulp.src('package.json')
     .pipe(bump({ type: importance }))
     .pipe(gulp.dest('.'))
     .pipe(git.commit('bumps package version'))
