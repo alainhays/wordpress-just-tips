@@ -118,7 +118,7 @@ gulp.task('shrinkwrap', function () {
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('package', ['build'], function () {
+gulp.task('package', ['build', 'shrinkwrap'], function () {
   return gulp.src(destination + '/**/*')
     .pipe(zip('plugin-video-tooltip-' + package.version + '.zip'))
     .pipe(gulp.dest(destination));
