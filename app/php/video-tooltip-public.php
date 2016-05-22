@@ -81,6 +81,7 @@ class VideoTooltipPublic {
      */
     public function shortcode_video_tooltip( $atts, $content, $tag ) {
         $a = shortcode_atts( array(
+            'animation' => 'swing',
             'autohide'  => '1',
             'autoplay'  => '1',
             'class'     => '',
@@ -92,9 +93,11 @@ class VideoTooltipPublic {
             'loop'      => '0',
             'mute'      => '0',
             'provider'  => 'youtube',
+            'theme'     => 'light',
             'video_id'  => '',
         ), $atts );
 
+        $animation      = $a['animation'];
         $class          = $a['class'];
         $controls       = $a['controls'];
         $begin          = $a['begin'];
@@ -103,12 +106,14 @@ class VideoTooltipPublic {
         $mute           = $a['mute'];
         $provider       = $a['provider'];
         $size           = $a['size'];
+        $theme          = $a['theme'];
         $video_id       = $a['video_id'];
 
         return <<< EOT
             <div id="$id" class="video-tooltip-shortcode $class"
               data-provider="$provider"
               data-video-id="$video_id"
+              data-option-animation="$animation"
               data-option-autohide="$autohide"
               data-option-autoplay="$autoplay"
               data-option-begin="$begin"
@@ -116,7 +121,8 @@ class VideoTooltipPublic {
               data-option-controls="$controls"
               data-option-end="$end"
               data-option-loop="$loop"
-              data-option-mute="$mute">
+              data-option-mute="$mute"
+              data-option-theme="$theme">
               $content
             </div>
 EOT;

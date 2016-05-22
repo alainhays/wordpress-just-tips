@@ -7,9 +7,12 @@
       var tooltip = $(this);
 
       tooltip.tooltipster({
-        position: tooltip.data('option-position') || 'top',
+        animation: tooltip.data('option-animation') || 'swing',
         contentAsHTML: true,
         content: '<div class="video-tooltip-wrapper"><div id="video-tooltip-player-' + index + '"></div></div>',
+        iconTouch: true,
+        position: tooltip.data('option-position') || 'top',
+        theme: tooltip.data('option-theme') || 'light',
         functionReady: function () {
           switch (tooltip.data('provider')) {
             case 'youtube': {
