@@ -107,7 +107,7 @@ class VideoTooltipPublic {
         $video_id       = $a['video_id'];
 
         return <<< EOT
-            <div id="$id" class="video-tooltip $size $class"
+            <div id="$id" class="video-tooltip-shortcode $size $class"
               data-provider="$provider"
               data-video-id="$video_id"
               data-option-autohide="$autohide"
