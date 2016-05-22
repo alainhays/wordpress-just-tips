@@ -55,8 +55,8 @@ class VideoTooltip {
    */
   private function load_dependencies() {
 
-    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/video-tooltip-loader.php';
-    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/video-tooltip-public.php';
+    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'video-tooltip-loader.php';
+    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'video-tooltip-public.php';
 
     $this->loader = new VideoTooltipLoader();
   }

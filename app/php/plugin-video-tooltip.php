@@ -24,7 +24,7 @@ if ( ! defined( 'WPINC' ) or ! defined( 'ABSPATH' ) ) {
   die('Nothing to do');
 }
 
-require plugin_dir_path( __FILE__ ) . 'includes/video-tooltip.php';
+require plugin_dir_path( __FILE__ ) . 'video-tooltip.php';
 
 /**
  * Begins execution of the plugin.
