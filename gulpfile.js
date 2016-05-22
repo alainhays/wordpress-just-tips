@@ -10,7 +10,6 @@ var gulp = require('gulp'),
   exorcist = require('exorcist'),
   gls = require('gulp-live-server'),
   less = require('gulp-less'),
-  notify = require('gulp-notify'),
   package = JSON.parse(require('fs').readFileSync('./package.json')),
   postcss = require('gulp-postcss'),
   reporter = require('jshint-sourcemap-reporter'),
@@ -58,14 +57,9 @@ function bundler(useSourceMaps, useWatchify) {
   var rebundle = function () {
     var start = Date.now();
     var stream = bundle.bundle()
-      .on('error', notify.onError('<%= error.message %>'))
       .pipe(exorcist(destination + '/bundle.js.map'))
       .pipe(source('bundle.js'))
       .pipe(gulp.dest(destination))
-      .pipe(notify({
-        title: logbuild(start),
-        sound: false
-      }));
     return (server ? stream.pipe(server.notify()) : stream);
   };
 
@@ -76,15 +70,6 @@ function bundler(useSourceMaps, useWatchify) {
 
 function logbuild(start) {
   return 'Built in ' + (Date.now() - start) + 'ms';
-}
-
-function time(stream, task) {
-  var start = Date.now();
-  task(stream)
-    .pipe(notify({
-      title: logbuild(start),
-      sound: false
-    }));
 }
 
 gulp.task('bower', function () {
@@ -109,7 +94,6 @@ gulp.task('less', ['bower'], function () {
   var stream = gulp.src([styles])
     .pipe(sourcemaps.init())
     .pipe(less())
-    .on('error', notify.onError('<%= error.message %>'))
     .pipe(postcss([autoprefixer({ map: true, browsers: ['last 2 version'] })]))
     .pipe(concatcss('bundle.css'))
     .pipe(sourcemaps.write('.'))
