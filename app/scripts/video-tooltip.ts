@@ -20,19 +20,19 @@
               var player = new YT.Player('video-tooltip-player-' + index, {
                 videoId: tooltip.data('video-id'),
                 playerVars: {
-                  'autohide': tooltip.data('option-autohide') || 2,
-                  'autoplay': tooltip.data('option-autoplay') || 1,
-                  'color': tooltip.data('option-color'),
-                  'controls': tooltip.data('option-controls') || 0,
-                  'end': tooltip.data('option-end'),
-                  'loop': tooltip.data('option-loop'),
-                  'modestbranding': 1,
-                  'rel': 0,
-                  'showinfo': 0,
-                  'start': tooltip.data('option-begin')
+                  autohide: tooltip.data('option-autohide') || 2,
+                  autoplay: tooltip.data('option-autoplay') || 1,
+                  color: tooltip.data('option-color'),
+                  controls: tooltip.data('option-controls') || 0,
+                  end: tooltip.data('option-end'),
+                  loop: tooltip.data('option-loop'),
+                  modestbranding: 1,
+                  rel: 0,
+                  showinfo: 0,
+                  start: tooltip.data('option-begin') || 0
                 },
                 events: {
-                  'onReady': function (event) {
+                  onReady: function (event) {
                     if (tooltip.data('option-mute') == '1') {
                       player.mute();
                     }
