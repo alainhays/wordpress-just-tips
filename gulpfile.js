@@ -155,6 +155,6 @@ gulp.task('default', ['watch'], function () {
   server.start();
 });
 
-gulp.task('build', ['assets', 'less', 'wiredep'], function () { return bundler(true, false); });
+gulp.task('build', ['assets', 'less', 'typings', 'wiredep'], function () { return bundler(true, false); });
 gulp.task('release', ['clean:dist'], function () { return gulp.start(['bower', 'build', 'package']); });
 gulp.task('watch', ['watchify']);
