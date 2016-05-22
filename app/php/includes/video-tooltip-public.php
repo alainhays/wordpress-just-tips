@@ -62,7 +62,7 @@ class VideoTooltipPublic {
         wp_enqueue_script( 'youtube', '//www.youtube.com/iframe_api', array(), $this->version, false );
         wp_enqueue_script( 'froogaloop2', '//f.vimeocdn.com/js/froogaloop2.min.js', array(), $this->version, false );
         wp_enqueue_script( 'tooltipster', plugin_dir_url( __FILE__ ) . '../components/tooltipster/js/jquery.tooltipster.min.js', array( 'jquery', 'youtube', 'froogaloop2' ), $this->version, false );
-        wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../js/bundle.js', array( 'tooltipster' ), $this->version, false );
+        wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../bundle.js', array( 'tooltipster' ), $this->version, false );
   }
 
     /**
