@@ -93,7 +93,7 @@ class VideoTooltipPublic {
             'loop'      => '0',
             'mute'      => '0',
             'provider'  => 'youtube',
-            'theme'     => 'light',
+            'theme'     => 'tooltipster-light',
             'video_id'  => '',
         ), $atts );
 

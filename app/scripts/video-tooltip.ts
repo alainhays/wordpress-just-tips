@@ -12,7 +12,7 @@
         content: '<div class="video-tooltip-wrapper"><div id="video-tooltip-player-' + index + '"></div></div>',
         iconTouch: true,
         position: tooltip.data('option-position') || 'top',
-        theme: tooltip.data('option-theme') || 'light',
+        theme: tooltip.data('option-theme') || 'tooltipster-light',
         functionReady: function () {
           switch (tooltip.data('provider')) {
             case 'youtube': {
