@@ -13,6 +13,7 @@ var gulp = require('gulp'),
   package = JSON.parse(require('fs').readFileSync('./package.json')),
   postcss = require('gulp-postcss'),
   reporter = require('jshint-sourcemap-reporter'),
+  shrinkwrap = require('gulp-shrinkwrap'),
   source = require('vinyl-source-stream'),
   sourcemaps = require('gulp-sourcemaps'),
   tsify = require('tsify'),
@@ -111,8 +112,16 @@ gulp.task('assets:watch', ['assets'], function () {
   gulp.watch(assets, ['assets']);
 });
 
+gulp.task('shrinkwrap', function () {
+  return gulp.src('package.json')
+    .pipe(shrinkwrap())
+    .pipe(gulp.dest('.'));
+});
+
 gulp.task('package', ['build'], function () {
-  return gulp.src(destination + '/*').pipe(zip('plugin-video-tooltip-' + package.version + '.zip')).pipe(gulp.dest(destination));
+  return gulp.src(destination + '/**/*')
+    .pipe(zip('plugin-video-tooltip-' + package.version + '.zip'))
+    .pipe(gulp.dest(destination));
 });
 
 gulp.task('wiredep', ['assets', 'bower'], function () {
