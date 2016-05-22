@@ -39,6 +39,10 @@ class VideoTooltipPublic {
    */
   public function enqueue_styles() {
     wp_enqueue_style( 'tooltipster', plugin_dir_url( __FILE__ ) . 'components/tooltipster/css/tooltipster.css', array(), $this->version, 'all' );
+    wp_enqueue_style( 'tooltipster', plugin_dir_url( __FILE__ ) . 'components/tooltipster/css/themes/tooltipster-light.css', array(), $this->version, 'all' );
+    wp_enqueue_style( 'tooltipster', plugin_dir_url( __FILE__ ) . 'components/tooltipster/css/themes/tooltipster-noir.css', array(), $this->version, 'all' );
+    wp_enqueue_style( 'tooltipster', plugin_dir_url( __FILE__ ) . 'components/tooltipster/css/themes/tooltipster-punk.css', array(), $this->version, 'all' );
+    wp_enqueue_style( 'tooltipster', plugin_dir_url( __FILE__ ) . 'components/tooltipster/css/themes/tooltipster-shadow.css', array(), $this->version, 'all' );
     wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'bundle.css', array(), $this->version, 'all' );
   }
 
