@@ -92,7 +92,7 @@ gulp.task('watchify', ['bower:watch', 'typings:watch', 'assets:watch', 'less:wat
 });
 
 gulp.task('less', ['bower'], function () {
-  var stream = gulp.src([styles])
+  var stream = gulp.src(styles)
     .pipe(sourcemaps.init())
     .pipe(less())
     .pipe(postcss([autoprefixer({ map: true, browsers: ['last 2 version'] })]))
@@ -102,7 +102,7 @@ gulp.task('less', ['bower'], function () {
   return (server ? stream.pipe(server.notify()) : stream);
 });
 gulp.task('less:watch', ['less'], function () {
-  gulp.watch([styles], ['less']);
+  gulp.watch(styles, ['less']);
 });
 
 gulp.task('assets', ['less'], function () {
