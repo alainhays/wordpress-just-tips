@@ -61,25 +61,25 @@ class VideoTooltipPublic {
           'mute'      => '0',
           'provider'  => 'youtube',
           'theme'     => 'tooltipster-light',
-          'video_id'  => '',
+          'video-id'  => '',
       ), $atts );
 
-      $animation      = $a['animation'];
-      $class          = $a['class'];
-      $controls       = $a['controls'];
-      $begin          = $a['begin'];
-      $end            = $a['end'];
-      $id             = $a['id'];
-      $mute           = $a['mute'];
-      $provider       = $a['provider'];
-      $size           = $a['size'];
-      $theme          = $a['theme'];
-      $video_id       = $a['video_id'];
+      $animation      = esc_attr($a['animation']);
+      $class          = esc_attr($a['class']);
+      $controls       = esc_attr($a['controls']);
+      $begin          = esc_attr($a['begin']);
+      $end            = esc_attr($a['end']);
+      $id             = esc_attr($a['id']);
+      $mute           = esc_attr($a['mute']);
+      $provider       = esc_attr($a['provider']);
+      $size           = esc_attr($a['size']);
+      $theme          = esc_attr($a['theme']);
+      $videoid        = esc_attr($a['video-id']);
 
       return <<< EOT
           <div id="$id" class="video-tooltip-shortcode $class"
             data-provider="$provider"
-            data-video-id="$video_id"
+            data-video-id="$videoid"
             data-option-animation="$animation"
             data-option-autohide="$autohide"
             data-option-autoplay="$autoplay"

@@ -10,7 +10,6 @@
         animation: tooltip.data('option-animation') || 'swing',
         contentAsHTML: true,
         content: '<div class="video-tooltip-wrapper"><div id="video-tooltip-player-' + index + '"></div></div>',
-        iconDesktop: true,
         iconTouch: true,
         position: tooltip.data('option-position') || 'top',
         theme: tooltip.data('option-theme') || 'tooltipster-light',
@@ -37,6 +36,11 @@
                       player.mute();
                     }
                     event.target.playVideo();
+                  },
+                  onStateChange: function (event) {
+                    if (event.target.getPlayerState() === 0) {
+                      tooltip.tooltipster('hide');
+                    }
                   }
                 }
               });

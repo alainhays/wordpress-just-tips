@@ -25,6 +25,8 @@ var gulp = require('gulp'),
   wiredep = require('gulp-wiredep'),
   zip = require('gulp-zip');
 
+require('gulp-release-tasks')(gulp);
+
 var server,
   app = 'app',
   components = 'dist/components',
@@ -76,7 +78,7 @@ function logbuild(start) {
 }
 
 function version() {
-    return JSON.parse(require('fs').readFileSync('./package.json')).version;
+  return JSON.parse(require('fs').readFileSync('./package.json')).version;
 }
 
 gulp.task('bower', function () {
