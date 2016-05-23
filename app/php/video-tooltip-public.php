@@ -90,6 +90,6 @@ class VideoTooltipPublic {
         data-option-theme="$theme">
         $content
         </div>
-        EOT;
+EOT;
     }
 }
