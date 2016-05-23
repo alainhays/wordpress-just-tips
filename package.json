@@ -1,6 +1,6 @@
 {
   "name": "plugin-video-tooltip",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "Provides a tooltip with a video in it. Brilliant? Perhaps.",
   "author": "Michael Pham (mpham@nativecode.com)",
   "license": "GPL-2.0",
