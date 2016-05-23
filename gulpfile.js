@@ -157,5 +157,5 @@ gulp.task('default', ['watch'], function () {
 });
 
 gulp.task('build', ['assets', 'less', 'typings', 'wiredep'], function () { return bundler(true, false); });
-gulp.task('distribute', ['clean:dist'], function () { return gulp.start(['bower', 'build', 'package', 'tag']); });
+gulp.task('distribute', ['clean:dist'], function () { return gulp.start(['bower', 'build', 'package']); });
 gulp.task('watch', ['watchify']);
