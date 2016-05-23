@@ -1,20 +1,27 @@
 .video-tooltip-shortcode {
-    display: inline-block;
+  display: inline-block;
+
+  :hover {
+      cursor: alias;
+      opacity: 0.1;
+      transform: scale(0.97);
+      transition: all 0.25s;
+  }
 }
 
 .video-tooltip-wrapper {
-    height: 0;
-    min-width: 30rem;
-    padding-bottom: 56.25%;
-    position: relative;
+  height: 0;
+  min-width: 30rem;
+  padding-bottom: 56.25%;
+  position: relative;
 
-    iframe {
-      bottom: 0;
-      height: 100%;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 100%;
-    }
+  iframe {
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+  }
 }
